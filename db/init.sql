@@ -1,0 +1,2 @@
+CREATE ROLE shega;
+CREATE DATABASE shega;
