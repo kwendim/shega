@@ -10,7 +10,7 @@ services:
       - postgres
   postgres:
     build: 
-      context: ../db
+      context: ./db
     ports:
       - 5432:5432
     environment:
