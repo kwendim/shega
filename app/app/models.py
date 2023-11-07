@@ -7,4 +7,4 @@ class Code(models.Model):
     is_claimed = models.BooleanField(default=False)
 
     def __str__(self):
-        return "self.code + self.code_type"
+        return "{} + {}".format(self.code , self.code_type)
