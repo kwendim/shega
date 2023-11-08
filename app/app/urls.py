@@ -23,3 +23,10 @@ urlpatterns = [
     path('redeem-code/<str:code>/', redeem_code, name='redeem-code'),
 
 ]
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+# ... the rest of your URLconf goes here ...
+
+urlpatterns += staticfiles_urlpatterns()
+print(urlpatterns)

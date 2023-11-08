@@ -3,7 +3,7 @@ services:
   backend:
     build:
       context: .
-    command:  bash -c "python app/manage.py migrate && gunicorn --chdir /shegagiveaway/app app.wsgi --workers 3 --timeout 90 -b :8000"
+    command:  bash -c "python app/manage.py migrate && python app/manage.py collectstatic --noinput && gunicorn --chdir /shegagiveaway/app app.wsgi --workers 3 --timeout 90 -b :8000"
     ports:
       - 8000:8000
     depends_on:
