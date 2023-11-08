@@ -50,8 +50,8 @@ def redeem_code(request, code):
 
         img = Image.open(image_path)
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype(font_path, 150)
-        draw.text((1250, 2220),"Code: " + code,(220,59,51),font=font)
+        font = ImageFont.truetype(font_path, 80)
+        draw.text((430, 860),"Code: " + code,(220,59,51),font=font)
         response = HttpResponse(content_type='image/png')
         img.save(response, 'PNG')
 
