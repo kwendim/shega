@@ -14,39 +14,54 @@ from .models import Code
 
 def redeem_code(request, code):
     try:
-        # import random, string
-        # for i in range(20):
-        #     code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-        #     Code.objects.create(code=code, code_type='Beer')
-
+        font_path = os.path.join(settings.BASE_DIR,  'font.ttf')
 
         code_obj = Code.objects.get(code=code)
+
         if code_obj.is_redeemed:
-            failure_image_path = os.path.join(settings.BASE_DIR,  'failure.png')
+            failure_image_path = os.path.join(settings.BASE_DIR,  'claimed.jpg')
             img = Image.open(failure_image_path)
             response = HttpResponse(content_type='image/png')
             img.save(response, 'PNG')
-            return response                
+            return response         
+
+        
+        if code_obj.code_type == 'food':
+            image_path = os.path.join(settings.BASE_DIR,  'food.jpg')
+
+        if code_obj.code_type == 'hat':
+            image_path = os.path.join(settings.BASE_DIR,  'hat.jpg')
+        
+        if code_obj.code_type == 'ticket':
+            image_path = os.path.join(settings.BASE_DIR,  'refund.jpg')
+        
+        if code_obj.code_type == 'shirt':
+            image_path = os.path.join(settings.BASE_DIR,  'shirt.jpg')
+        
+        if code_obj.code_type == 'try again':
+            image_path = os.path.join(settings.BASE_DIR,  'try again.jpg')
+
+        if code_obj.code_type == 'beer':
+            image_path = os.path.join(settings.BASE_DIR,  'beer.jpg')
+
+        if code_obj.code_type == 'cocktail':
+            image_path = os.path.join(settings.BASE_DIR,  'cocktail.jpg')
+
+
+        img = Image.open(image_path)
+        draw = ImageDraw.Draw(img)
+        font = ImageFont.truetype(font_path, 150)
+        draw.text((1250, 2220),"Code: " + code,(255,0,0),font=font)
+        response = HttpResponse(content_type='image/png')
+        img.save(response, 'PNG')
 
         code_obj.is_redeemed = True
         code_obj.save()
 
-        success_image_path = os.path.join(settings.BASE_DIR,  'success.png')
-        font_path = os.path.join(settings.BASE_DIR,  'myfont.ttf')
-
-
-        img = Image.open(success_image_path)
-
-        draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype(font_path, 40)
-        draw.text((0, 390),"Code: " + code,(255,255,255),font=font)
-
-        response = HttpResponse(content_type='image/png')
-        img.save(response, 'PNG')
         return response   
 
     except Code.DoesNotExist:
-        failure_image_path = os.path.join(settings.BASE_DIR,  'fake.jpg')
+        failure_image_path = os.path.join(settings.BASE_DIR,  'try again.jpg')
         img = Image.open(failure_image_path)
         response = HttpResponse(content_type='image/png')
         img.save(response, 'PNG')
